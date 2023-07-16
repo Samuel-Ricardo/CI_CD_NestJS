@@ -32,7 +32,9 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=root
     tmpfs:
       - /data/db
-  
+    ports:
+      - "27018:27017"
+
   mongo-express:
     image: mongo-express
     restart: always

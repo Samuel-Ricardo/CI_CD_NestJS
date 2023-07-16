@@ -9,10 +9,7 @@ import { TweetsModule } from './tweets/tweets.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [
-        join(__dirname, '..', `.env.${process.env.NODE_ENV}`),
-        join(__dirname, '..', `.env`),
-      ],
+      envFilePath: [join(__dirname, '..', `.env`)],
     }),
     MongooseModule.forRoot(process.env.MONGO_DSN),
     TweetsModule,
