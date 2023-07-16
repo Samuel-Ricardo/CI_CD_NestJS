@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
 import { Tweet, TweetSchema } from './tweet.entity';
-import { Test, TestingModule } from '@nestjs/testing';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
 
 describe('[ENTITY] | Tweets', () => {
   describe('[ENTITY] | Tweets (Unit Test)', () => {
