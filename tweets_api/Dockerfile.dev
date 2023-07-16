@@ -38,4 +38,4 @@ RUN echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> ~/.zshrc && \
     echo 'HISTFILE=/home/node/zsh/.zsh_history' >> ~/.zshrc 
 
 
-CMD [".docker/start.sh"]
+#CMD [".docker/start.sh"]
