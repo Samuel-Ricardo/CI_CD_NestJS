@@ -11,3 +11,17 @@ services:
       - .:/home/node/app
       - ./.docker/zsh/powerlevel10k/.p10k.zsh:/home/node/.p10k.zsh:delegated
       - ./.docker/zsh/history:/home/node/zsh:delegated
+    depends_on:
+      - db
+
+  db:
+    image: mongo:6.0.2
+    profiles:
+      - dev
+    ports:
+      - "27017:27017" 
+    volumes:
+      - ./.docker/dbdata:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
