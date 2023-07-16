@@ -3,6 +3,7 @@
 .env.test
 
 # Docker
+.docker
 .docker/dbdata
 .docker/zsh
 
