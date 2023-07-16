@@ -42,7 +42,18 @@ describe('[ENTITY] | Tweets', () => {
     });
 
     it('Should Create a Tweet', async () => {
-      expect(true).toBe(true);
+      const TweetModel = conn.model('Tweet', TweetSchema);
+      const tweet = new TweetModel({
+        content: 'Hello World',
+        screen_name: 'Luiz Carlos',
+      });
+
+      await tweet.save();
+
+      const tweetCreated = await TweetModel.findById(tweet._id);
+
+      expect(tweetCreated.content).toBe('Hello World');
+      expect(tweetCreated.screen_name).toBe('Luiz Carlos');
     });
   });
 });
