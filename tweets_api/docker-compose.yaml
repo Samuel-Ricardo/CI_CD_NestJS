@@ -19,8 +19,8 @@ services:
     image: mongo:6.0.2
     ports:
       - "27017:27017" 
-    volumes:
-      - ./.docker/dbdata:/data/db
+    tmpfs:
+      - /data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
