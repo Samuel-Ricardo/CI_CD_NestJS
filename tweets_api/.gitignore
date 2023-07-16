@@ -1,6 +1,10 @@
 #ENV
-
+.env
 .env.test
+
+# Docker
+.docker/dbdata
+.docker/zsh
 
 
 # compiled output
