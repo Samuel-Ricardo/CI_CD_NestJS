@@ -12,8 +12,10 @@ export class TweetsService {
     private tweetModel: Model<TweetDocument>,
   ) {}
 
-  create(createTweetDto: CreateTweetDto) {
-    return 'This action adds a new tweet';
+  async create(createTweetDto: CreateTweetDto) {
+    const tweet = new this.tweetModel(createTweetDto);
+    await tweet.save();
+    return tweet;
   }
 
   findAll() {
