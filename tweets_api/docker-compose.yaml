@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     entrypoint: ["npm", "run", "start:dev"]
-    profiles:
-      - dev
     ports:
       - "3000:3000"
     volumes:
@@ -19,8 +17,6 @@ services:
 
   db:
     image: mongo:6.0.2
-    profiles:
-      - dev
     ports:
       - "27017:27017" 
     volumes:
@@ -31,8 +27,6 @@ services:
 
   db_test:
     image: mongo:6.0.2
-    profiles:
-      - dev
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
@@ -41,8 +35,6 @@ services:
   
   mongo-express:
     image: mongo-express
-    profiles:
-      - dev
     restart: always
     ports:
       - 8081:8081
