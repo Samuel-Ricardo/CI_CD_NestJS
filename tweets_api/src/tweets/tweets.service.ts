@@ -22,8 +22,8 @@ export class TweetsService {
     return this.tweetModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tweet`;
+  findOne(id: string) {
+    return this.tweetModel.findById(id).exec();
   }
 
   update(id: number, updateTweetDto: UpdateTweetDto) {
