@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TweetsModule } from './tweets/tweets.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       ],
     }),
     MongooseModule.forRoot(process.env.MONGO_DSN),
+    TweetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
