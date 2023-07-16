@@ -19,7 +19,7 @@ export class TweetsService {
   }
 
   findAll() {
-    return `This action returns all tweets`;
+    return this.tweetModel.find().exec();
   }
 
   findOne(id: number) {
