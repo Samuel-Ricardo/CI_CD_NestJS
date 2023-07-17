@@ -22,8 +22,8 @@ env:
   # github.repository as <account>/<repo>
   #IMAGE_NAME: ${{ github.repository }}
   IMAGE_NAME: nestjs-ci-cd-393116/nest
-  #SERVICE: nest
-  #REGION: us-central1
+  SERVICE: nest
+  REGION: us-central1
 
 jobs:
   CI:
@@ -65,13 +65,11 @@ jobs:
           username: _json_key
         # password: ${{ secrets.GITHUB_TOKEN }}
           password: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Log In GCP
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+  
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ env.IMAGE_NAME }}
-          export_default_credentials: true
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
 
       # Extract metadata (tags, labels) for Docker
@@ -115,7 +113,6 @@ jobs:
           target: production
         # push: ${{ github.event_name != 'pull_request' }}
           push: true
-
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
