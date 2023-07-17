@@ -64,7 +64,7 @@ jobs:
         # username: ${{ github.actor }}
           username: _json_key
         # password: ${{ secrets.GITHUB_TOKEN }}
-          password: ${{ secret.GCP_SA_KEY }}
+          password: ${{ secrets.GCP_SA_KEY }}
 
 
       # Extract metadata (tags, labels) for Docker
