@@ -22,8 +22,8 @@ env:
   # github.repository as <account>/<repo>
   #IMAGE_NAME: ${{ github.repository }}
   IMAGE_NAME: nestjs-ci-cd-393116/nest
-  SERVICE: nest
-  REGION: us-central1
+  #SERVICE: nest
+  #REGION: us-central1
 
 jobs:
   CI:
