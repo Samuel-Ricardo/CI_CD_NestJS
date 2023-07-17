@@ -101,6 +101,15 @@ jobs:
         run:  docker compose -f ./tweets_api/docker-compose.prod.yaml exec -T app_prod sh -c "npm run test"
 
 
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+        with:
+          service: ${{ env.SERVICE }}
+          image: ${{ needs.CI.outputs.tags }}
+          region: ${{ env.REGION }}
+          env_vars: MONGO_DSN=${{ secrets.MONGO_DSN }}
+
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
