@@ -10,7 +10,7 @@ import { TweetsModule } from './tweets/tweets.module';
   imports: [
     ConfigModule.forRoot({
       envFilePath: [
-        join(__dirname, '..', `.env${process.env.NODE_ENV}`),
+        join(__dirname, '..', `.env.${process.env.NODE_ENV}`),
         join(__dirname, '..', `.env`),
       ],
     }),
