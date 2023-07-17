@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app_prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      target: ${STAGE:-testing}
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/dist
+      - /home/node/app/node_modules
+    depends_on:
+      - db_prod
