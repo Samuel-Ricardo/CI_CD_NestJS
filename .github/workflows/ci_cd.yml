@@ -105,7 +105,7 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v0'
         with:
           service: ${{ env.SERVICE }}
-          image: ${{ needs.CI.outputs.tags }}
+          image: ${{ steps.meta.outputs.tag }}
           region: ${{ env.REGION }}
           env_vars: MONGO_DSN=${{ secrets.MONGO_DSN }}
 
