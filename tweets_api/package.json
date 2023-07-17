@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start:docker": "docker compose --profile dev up",
+    "start:docker:prod": "docker compose -f docker-compose.prod.yaml up --build",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
