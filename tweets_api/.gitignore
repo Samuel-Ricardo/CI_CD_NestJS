@@ -1,6 +1,7 @@
 #ENV
 .env
 .env.test
+.env.prod
 
 # Docker
 .docker
