@@ -11,7 +11,6 @@ COPY --chown=node:node ./tweets_api/package-lock.json ./
 RUN npm ci
 
 COPY --chown=node:node ./tweets_api/ ./
-
 RUN npm run build
 
 ENV NODE_ENV=prod
