@@ -21,7 +21,7 @@ env:
   REGISTRY: gcr.io
   # github.repository as <account>/<repo>
   #IMAGE_NAME: ${{ github.repository }}
-  IMAGE_NAME: nestjs-ci-cd/nest
+  IMAGE_NAME: nestjs-ci-cd-393116/nest
   SERVICE: nest
   REGION: us-central1
 
