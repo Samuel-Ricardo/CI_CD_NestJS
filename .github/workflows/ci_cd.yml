@@ -87,13 +87,13 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Up Containers
-        run: docker compose -f docker-compose.prod.yaml up -d
+        run: docker compose -f ./tweets_api/docker-compose.prod.yaml up -d
 
       - name: Waiting environment to be ready
         run: wget -qO- https://raw.githubusercontent.com/eficode/wait-for/v2.1.3/wait-for | sh -s -- http://localhost:3000 -- echo success
 
       - name: Runnning Tests
-        run:  docker compose -f docker-compose.prod.yaml exec -T app_prod sh -c "npm run test"
+        run:  docker compose -f ./tweets_api/docker-compose.prod.yaml exec -T app_prod sh -c "npm run test"
 
 
       # Build and push Docker image with Buildx (don't push on PR)
