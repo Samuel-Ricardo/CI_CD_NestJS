@@ -12,7 +12,7 @@ describe('TweetsController', () => {
     module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRoot(
-          'mongodb://root:root@localhost:27017/tweets_controller_test?authSource=admin',
+          'mongodb://root:root@db_prod:27017/tweets_controller_test?authSource=admin',
         ),
         MongooseModule.forFeature([{ name: Tweet.name, schema: TweetSchema }]),
       ],

@@ -30,7 +30,7 @@ describe('[ENTITY] | Tweets', () => {
       // conn = await app.get();
 
       conn = await mongoose.connect(
-        `mongodb://root:root@localhost:27017/tweets_entity_test?authSource=admin`,
+        `mongodb://root:root@db_prod:27017/tweets_entity_test?authSource=admin`,
       );
     });
 

@@ -6,8 +6,8 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '25 10 * * *'
+# schedule:
+#   - cron: '25 10 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
@@ -17,15 +17,20 @@ on:
 
 env:
   # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
+  #REGISTRY: ghcr.io
+  REGISTRY: gcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-
+  #IMAGE_NAME: tweets-api-365414/nest
+  SERVICE: nest
+  REGION: us-central1
 
 jobs:
-  build:
+  CI:
 
     runs-on: ubuntu-latest
+    outputs: 
+      tags: ${{ steps.meta.outputs.tag }}
     permissions:
       contents: read
       packages: write
@@ -56,8 +61,11 @@ jobs:
         uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
+        # username: ${{ github.actor }}
+          username: __json_key
           password: ${{ secrets.GITHUB_TOKEN }}
+        # password: ${{ secret.GCP_SA_KEY }}
+
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -67,14 +75,39 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Build for testing
+        id: build-for-testing
+        uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        with:
+          context: .
+          file: ./Dockerfile.prod
+          push: false
+          target: ${{ steps.meta.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Up Containers
+        run: docker compose -f docker-compose.prod.yaml up -d
+
+      - name: Waiting environment to be ready
+        run: wget -qO- https://raw.githubusercontent.com/eficode/wait-for/v2.1.3/wait-for | sh -s -- http://localhost:3000 -- echo success
+
+      - name: Runnning Tests
+        run:  docker compose -f docker-compose.prod.yaml exec -T app_prod sh -c "npm run test"
+
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
+          file: ./Dockerfile.prod
+          target: production
+        # push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
@@ -95,3 +128,26 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+  
+  CD: 
+    needs: CI
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
+        with:
+          service: ${{ env.SERVICE }}
+          image: ${{ needs.CI.outputs.tags }}
+          region: ${{ env.REGION }}
+          env_vars: MONGO_DSN=${{ secrets.MONGO_DSN }}
