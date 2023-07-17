@@ -20,8 +20,8 @@ env:
   #REGISTRY: ghcr.io
   REGISTRY: gcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-  #IMAGE_NAME: tweets-api-365414/nest
+  #IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: nestjs-ci-cd/nest
   SERVICE: nest
   REGION: us-central1
 
@@ -62,9 +62,9 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
         # username: ${{ github.actor }}
-          username: __json_key
-          password: ${{ secrets.GITHUB_TOKEN }}
-        # password: ${{ secret.GCP_SA_KEY }}
+          username: _json_key
+        # password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secret.GCP_SA_KEY }}
 
 
       # Extract metadata (tags, labels) for Docker
