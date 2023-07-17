@@ -80,7 +80,7 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
-          file: ./Dockerfile.prod
+          file: ./tweets_api/Dockerfile.prod
           push: false
           target: ${{ steps.meta.outputs.tag }}
           cache-from: type=gha
@@ -104,7 +104,7 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         with:
           context: .
-          file: ./Dockerfile.prod
+          file: ./tweets_api/Dockerfile.prod
           target: production
         # push: ${{ github.event_name != 'pull_request' }}
           push: true
