@@ -82,7 +82,7 @@ jobs:
           context: .
           file: ./tweets_api/Dockerfile.ci
           push: false
-          target: ${{ steps.meta.outputs.tags }}
+          target: ${{ steps.meta.outputs.tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
