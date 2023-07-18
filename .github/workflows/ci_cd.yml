@@ -30,7 +30,7 @@ jobs:
 
     runs-on: ubuntu-latest
     outputs: 
-      tags: ${{ steps.meta.outputs.tag }}
+      tags: ${{ steps.meta.outputs.tags }}
     permissions:
       contents: read
       packages: write
@@ -82,7 +82,7 @@ jobs:
           context: .
           file: ./tweets_api/Dockerfile.ci
           push: false
-          target: ${{ steps.meta.outputs.tag }}
+          target: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
